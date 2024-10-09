@@ -1,0 +1,36 @@
+<html>
+<body>
+<form method="GET" name="<?php echo basename($_SERVER['PHP_SELF']); ?>">
+    <input type="TEXT" name="message" autofocus id="message" size="80">
+    <input type="SUBMIT" value="Send">
+</form>
+<pre>
+<?php
+if (isset($_GET['message'])) {
+    $ip = '192.168.1.23';
+    $port = 5501; // Cambiado a 5501
+    $message = $_GET['message'];
+
+    // Crear un socket
+    $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+    if ($socket === false) {
+        echo "No se pudo crear el socket: " . socket_strerror(socket_last_error()) . "\n";
+    } else {
+        // Conectar al servidor
+        $result = socket_connect($socket, $ip, $port);
+        if ($result === false) {
+            echo "No se pudo conectar al servidor: " . socket_strerror(socket_last_error($socket)) . "\n";
+        } else {
+            // Enviar el mensaje
+            socket_write($socket, $message, strlen($message));
+            echo "Mensaje enviado: $message\n";
+
+            // Cerrar el socket
+            socket_close($socket);
+        }
+    }
+}
+?>
+</pre>
+</body>
+</html>

